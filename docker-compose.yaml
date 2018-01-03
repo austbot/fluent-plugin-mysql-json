@@ -1,0 +1,19 @@
+version: '3.1'
+services:
+  mysql:
+    image: "mysql"
+    ports:
+     - "8080:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: logs
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+  ruby:
+    build: .
+    depends_on:
+    - mysql
+    working_dir: /usr/src/app
+    command: bash -c "pwd && bundle install && rake"
+    volumes:
+    - ".:/usr/src/app"
